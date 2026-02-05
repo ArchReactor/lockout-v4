@@ -7,8 +7,9 @@ This is a set of docker containers and php scripts to manage building and tool l
 Multiple templated files need edited before running the containers
 
 ## Environment
-Copy `env.template` to `.env` and edit as follows
+Copy `env.template` to `.env` and edit as follows, all are required
  - UID: user ID number to run as, match the host user ID to simplify file permissions
+ - TIMEZONE: Timezone for default date/time operations 
  - CIVICRM_AUTH: On your CIVICrm user profile page find the API Key tab and create/copy the Key value
  - CIVICRM_KEY: On the same tab find the Site Key value
  - CIVICRM_WEBSITE: your base website URL.

@@ -3,7 +3,7 @@ services:
     image: ghcr.io/esphome/esphome:latest
     container_name: lockout-esphome
     environment:
-      - TZ=America/Chicago # Change to your timezone (e.g., America/Chicago)
+      - TZ=${TIMEZONE}
       - PLATFORMIO_CORE_DIR=.platformio #relocate platformio to config dir
       - PLATFORMIO_GLOBALLIB_DIR=.platformioLibs
       - UID=${UID}
@@ -33,6 +33,7 @@ services:
     container_name: lockout-php
     restart: unless-stopped
     environment:
+      - TZ=${TIMEZONE}
       - CIVICRM_AUTH=${CIVICRM_AUTH}
       - CIVICRM_KEY=${CIVICRM_KEY}
       - CIVICRM_WEBSITE=${CIVICRM_WEBSITE}

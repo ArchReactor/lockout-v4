@@ -4,7 +4,7 @@
 //card
 //name
 
-date_default_timezone_set("America/Chicago");
+date_default_timezone_set($_ENV['TZ']);
 
 $url = $_ENV['CIVICRM_WEBSITE'].$_ENV['CIVICRM_APIv4URI'].'/Activity/create';
 $params = [
