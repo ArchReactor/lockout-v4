@@ -1,3 +1,3 @@
 name,ip.ad.re.ss,"##,##",5
 name2,ip.ad.re.ss,"##",5
-display name,ip address, CSV of civicrm group numbers, seconds to remain active (0 for "until reset")
+display name,ip address, CSV of civicrm group numbers, seconds to remain active (99999 for "until reset")

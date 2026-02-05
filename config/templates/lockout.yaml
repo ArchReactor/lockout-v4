@@ -162,7 +162,7 @@ interval:
                     - lambda: |-
                         ESP_LOGD("request", "Request Complete %d %u ms", response->status_code, response->duration_ms);
       - lambda: |-
-          if (id(expiration_time) > 0 && id(expiration_time) < 999) {
+          if (id(expiration_time) > 0 && id(expiration_time) < 99999) {
               ESP_LOGD("relay", "decrementing expiration time, current time %i", id(expiration_time));
 
               id(expiration_time) -= 1;
@@ -256,7 +256,7 @@ display:
       lambda: |-
         it.fill(COLOR_OFF);
 
-        if(id(expiration_time) == 999) {
+        if(id(expiration_time) == 99999) {
           it.print(0, 0, id(hack), id(green), "Unlocked until reset");
         } else if (id(expiration_time) > 0) {
           auto msg = "Unlocked: " + to_string(id(expiration_time));
