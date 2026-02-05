@@ -1,0 +1,6 @@
+name: lockout-security-queries
+version: 1.0.0
+libraryPathDependencies:
+  - codeql/cpp-all
+  - codeql/php-all
+extractor: cpp

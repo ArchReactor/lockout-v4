@@ -1,0 +1,33 @@
+name: "Lockout Security Analysis"
+
+# Use the extended security queries plus our custom ones
+queries:
+  - uses: security-extended
+  - uses: security-and-quality
+  - uses: ./.github/codeql/queries
+
+# Focus on C++ (ESP firmware) and PHP (web backend)
+languages:
+  - cpp
+  - php
+
+# Paths to analyze
+paths:
+  - config/components
+  - web
+
+# Ignore test/example files
+paths-ignore:
+  - '**/*.bak'
+  - '**/templates/**'
+
+# Query filters - enable high-severity security queries
+query-filters:
+  - include:
+      tags contain: security
+  - include:
+      tags contain: external/cwe/cwe-120  # Buffer overflow
+  - include:
+      tags contain: external/cwe/cwe-134  # Uncontrolled format string
+  - include:
+      tags contain: external/cwe/cwe-676  # Use of potentially dangerous function
