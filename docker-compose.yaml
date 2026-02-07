@@ -14,12 +14,12 @@ services:
       - "6052:6052" # Web UI Port
     devices:
       - /dev/ttyUSB0:/dev/ttyUSB0 # Map your USB device for flashing (comment out if not using)
-    restart: unless-stopped
-    entrypoint: /bin/bash -c "(id -u esphome &>/dev/null || useradd -u ${UID} -U -M -G dialout esphome) ; su esphome -c '/entrypoint.sh dashboard --username ${ESPHOME_USER} --password ${ESPHOME_PASSWORD} /config'"
+    restart: always
+    entrypoint: /bin/bash -c "(id -u esphome &>/dev/null || useradd -u ${UID} -U -M -G dialout esphome) ; su esphome -s /bin/bash -c '/entrypoint.sh dashboard --username ${ESPHOME_USER} --password ${ESPHOME_PASSWORD} /config'"
   nginx:
     image: nginx:alpine
     container_name: lockout-nginx
-    restart: unless-stopped
+    restart: always
     ports:
       - "8080:80"
     volumes:
@@ -33,7 +33,7 @@ services:
   php:
     image: php:8.3-fpm-alpine # Use a recent, specific PHP version
     container_name: lockout-php
-    restart: unless-stopped
+    restart: always
     environment:
       - TZ=${TIMEZONE}
       - CIVICRM_AUTH=${CIVICRM_AUTH}
