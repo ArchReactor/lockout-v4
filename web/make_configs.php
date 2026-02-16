@@ -4,7 +4,6 @@ if (PHP_SAPI !== 'cli') {
     die("This script must be run from the command line.");
 } 
 
-ini_set('auto_detect_line_endings',TRUE);
 $handle = fopen('lockouts.csv','r');
 while ( ($data = fgetcsv($handle) ) !== FALSE ) {
     if(count($data) < 4) {
