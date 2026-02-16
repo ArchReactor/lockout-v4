@@ -1,6 +1,23 @@
 # AR Lockout Project version 4
 
-This is a set of docker containers and php scripts to manage building and tool lockouts
+This is a set of docker containers and php scripts to manage building and tool lockouts for ArchReactor makerspace.
+
+## System Architecture
+
+This diagram illustrates the flow of membership data from CiviCRM through to physical access control devices.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./Assets/architecture_dark.svg">
+  <img alt="System Architecture" src="./Assets/architecture.svg">
+</picture>
+
+### Flow Description
+
+1. **Membership Database**: Member RFID card data is stored in CiviCRM along with group/permission assignments.
+2. **Docker Host**: PHP scripts pull card data from the CiviCRM API v4, while ESPHome manages device firmware and configuration.
+3. **Configuration Generation**: The `lockouts.csv` file defines each physical device, and `make_configs.php` generates ESPHome YAML configs.
+4. **ESP Devices**: ESP32/ESP8266 microcontrollers cache card lists locally for offline validation and control physical access hardware.
+5. **Physical Access**: Devices control door strikes, tool interlocks, and machine relays based on RFID card validation.
 
 # Configuration
 
@@ -55,4 +72,7 @@ http://yourIP:8080/update.php will instruct the devices found in `lockouts.csv` 
 
 # Troubleshooting
 Each generated device has a web server enabled, protected with the user and password you specified in the .env file.  This will show the device logs and state.  The device will log card reads and card matching results.
+
+# Additional Documentation
+- [DATA_DICTIONARY.md](./DATA_DICTIONARY.md) - Detailed documentation of configuration fields, environment variables, and CiviCRM integration.
 
