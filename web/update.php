@@ -1,5 +1,5 @@
 <?php
-header('X-Accel-Buffering: no');
+//header('X-Accel-Buffering: no');
 
 
 session_write_close();
@@ -35,7 +35,6 @@ function pressButton($nodeIp) {
     curl_close($ch);
 }
 
-ini_set('auto_detect_line_endings',TRUE);
 $handle = fopen('lockouts.csv','r');
 while ( ($data = fgetcsv($handle) ) !== FALSE ) {
     if(count($data) < 2) {

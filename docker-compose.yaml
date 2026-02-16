@@ -44,6 +44,7 @@ services:
       - CIVICRM_RFID_OWNER=${CIVICRM_RFID_OWNER}
       - ESPHOME_USERPASS=${ESPHOME_USER}:${ESPHOME_PASSWORD}
       - LOCKOUT_WEBHOST=${LOCKOUT_WEBHOST}
+      - UPDATE_RETURN_URL=${UPDATE_RETURN_URL}
     volumes:
       - ./web:/var/www/html:ro
     working_dir: /var/www/html
