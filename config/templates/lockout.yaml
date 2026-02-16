@@ -70,6 +70,9 @@ globals:
     - id: http_queue
       type: 'std::vector<std::string>'
 
+    - id: http_error_queue
+      type: 'std::vector<std::string>'
+
     - id: active_time
       type: "uint32_t"
       restore_value: no
@@ -155,12 +158,18 @@ interval:
                 url: !lambda |-
                   auto url = id(http_queue).front();
                   id(http_queue).erase(id(http_queue).begin());
+                  id(http_error_queue).push_back(url); //queue in case of error
                   ESP_LOGD("request", "making request to %s", url.c_str());
                   return url;
                 on_response:
                   then: 
                     - lambda: |-
-                        ESP_LOGD("request", "Request Complete %d %u ms", response->status_code, response->duration_ms);
+                        if (response->status_code == 200) {
+                          ESP_LOGD("request", "Request Complete %d %u ms", response->status_code, response->duration_ms);
+                          id(http_error_queue).erase(id(http_error_queue).end()-1);
+                        } else {
+                          ESP_LOGD("request", "Request Failed, requeing in 10s %d %u ms", response->status_code, response->duration_ms);
+                        }
       - lambda: |-
           if (id(expiration_time) > 0 && id(expiration_time) < 99999) {
               ESP_LOGD("relay", "decrementing expiration time, current time %i", id(expiration_time));
@@ -172,6 +181,15 @@ interval:
           }
   - interval: 10s
     then:
+      - while:
+          condition:
+            lambda: 'return !id(http_error_queue).empty();'
+          then:
+            - lambda: |-
+                auto url = id(http_error_queue).front();
+                id(http_error_queue).erase(id(http_error_queue).begin());
+                ESP_LOGD("request", "retrying request to %s", url.c_str());
+                id(http_queue).push_back(url);
       - lambda: |-
           ESP_LOGD("relay", "heartbeat: %i", id(heartbeat));
           id(heartbeat) += 1;
