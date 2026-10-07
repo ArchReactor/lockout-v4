@@ -58,4 +58,4 @@ echo "Update complete<br />\n";
 ?>
 
 <p>
-<a href="<?php echo $_ENV['UPDATE_RETURN_URL']; ?>">Return</a>
+<a href="#" onclick="history.back(); return false;">Return</a>
